@@ -4,23 +4,54 @@ import './App.css';
 class App extends Component {
   state = {
     response: '',
-    post: '',
+    ids: [],
     responseToPost: '',
   };
   
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
+    this.getUser()
+      .then(users => this.getUserInfo(users.items).then(
+        user_info =>   this.setState({ 
+          response: user_info
+        })
+      )
+     
+      )
       .catch(err => console.log(err));
   }
   
-  callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    
+  getUser = async () => {
+    const users = await fetch('/api/search?length=32');
+    const body = await users.json();
+
+    if (users.status !== 200) throw Error(body.message);
+    let user_ids = [];
+
+    for(let i=0; i<body.items.length; i++){
+      user_ids.push(body.items[i].id);
+    }
+    console.log(user_ids);
+
     return body;
+
   };
+  getUserInfo = async (users) => {
+    console.log("users", users)
+    const user_info = await fetch(`/api/profiles?ids=${users[0].id}&ids=${users[1].id}`);
+    const body = await user_info.json();
+
+    if (user_info.status !== 200) throw Error(body.message);
+  
+
+    // for(let i=0; i<body.items.length; i++){
+    //   user_ids.push(body.items[i].id);
+    // }
+    console.log("user info", body);
+
+    return body;
+
+  };
+ 
   
   handleSubmit = async e => {
     e.preventDefault();
@@ -40,19 +71,8 @@ render() {
     return (
       <div className="App">
         <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
-        <p>{this.state.response}</p>
+        {/* <p>{this.state}</p> */}
         <form onSubmit={this.handleSubmit}>
           <p>
             <strong>Post to Server:</strong>
