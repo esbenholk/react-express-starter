@@ -1,92 +1,66 @@
 import React, { Component } from 'react';
+import User from './user-component.js';
+
 import './App.css';
 
 class App extends Component {
   state = {
-    response: '',
     ids: [],
-    responseToPost: '',
+    users: [],
   };
   
   componentDidMount() {
     this.getUser()
       .then(users => this.getUserInfo(users.items).then(
-        user_info =>   this.setState({ 
-          response: user_info
+        complete_users =>   {
+          this.setState({ 
+            users: complete_users
+          })
+          console.log("complete users", complete_users)
         })
-      )
      
       )
       .catch(err => console.log(err));
   }
   
   getUser = async () => {
-    const users = await fetch('/api/search?length=32');
-    const body = await users.json();
+    const result= await fetch('/api/search?length=32');
+    const users = await result.json();
 
-    if (users.status !== 200) throw Error(body.message);
+    if (result.status !== 200) throw Error(users.message);
     let user_ids = [];
 
-    for(let i=0; i<body.items.length; i++){
-      user_ids.push(body.items[i].id);
+    for(let i=0; i<users.items.length; i++){
+      user_ids.push(users.items[i].id);
     }
-    console.log(user_ids);
-
-    return body;
-
+    return users;
   };
+
   getUserInfo = async (users) => {
-    console.log("users", users)
-    const user_info = await fetch(`/api/profiles?ids=${users[0].id}&ids=${users[1].id}`);
-    const body = await user_info.json();
+    let params = ``;
+    for(let i=0; i<users.length; i++){
+      params += `&ids=${users[i].id}`
+    }
 
-    if (user_info.status !== 200) throw Error(body.message);
+    const result = await fetch(`/api/profiles?ids=${params}`);
+    const user_info = await result.json();
+
+    if (result.status !== 200) throw Error(user_info.message);  
   
+    let complete_users = user_info.map((item, i) => Object.assign({}, item, users[i]));
 
-    // for(let i=0; i<body.items.length; i++){
-    //   user_ids.push(body.items[i].id);
-    // }
-    console.log("user info", body);
-
-    return body;
+    return complete_users;
 
   };
  
-  
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    
-    this.setState({ responseToPost: body });
-  };
-  
-render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-        </header>
-        {/* <p>{this.state}</p> */}
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <p>{this.state.responseToPost}</p>
-      </div>
-    );
+  render() {
+      return (
+        <div className="App">
+          <header className="App-header">
+          </header>
+          <User props={this.state.ids}/>
+        </div>
+      );
   }
 }
 
