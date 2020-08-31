@@ -9,11 +9,12 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
     "bunyan": "^1.8.12",
+    "express": "^4.16.4",
     "hashids": "^1.1.4",
     "lodash": "^4.17.10",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "react-flip-toolkit": "^7.0.12"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

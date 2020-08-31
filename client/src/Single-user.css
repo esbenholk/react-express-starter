@@ -1,0 +1,25 @@
+
+*{
+    margin:0;
+    padding: 0;
+}
+
+.user{
+    max-width: 50%;
+    width: 300px;
+    height: auto;
+    max-height: 100%;
+    
+    position: relative;
+    border: 2px red solid;
+}
+.profile-picture{
+    width: 100%;
+    object-fit: contain;
+    z-index: 0;
+}
+.details{
+    background-color: grey;
+    z-index: 1;
+}
+

@@ -1,0 +1,12 @@
+.status_icon{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.online_icon{
+    background-color: rgb(0, 255, 29);
+}
+.offline_icon{
+    background-color: rgb(255, 0, 0);
+}
