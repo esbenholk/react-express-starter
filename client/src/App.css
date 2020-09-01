@@ -1,0 +1,16 @@
+.user-grid{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  
+    
+}
+.App{
+    background-color: #174B64;
+    width: 100%;
+    overflow-x: hidden;
+}
+ul{
+    list-style: none;
+}

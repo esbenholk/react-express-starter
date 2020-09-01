@@ -1,25 +1,44 @@
 
-*{
-    margin:0;
-    padding: 0;
-}
-
 .user{
-    max-width: 50%;
-    width: 300px;
-    height: auto;
+    width: 20%;
+    min-width: 175px;
     max-height: 100%;
-    
     position: relative;
-    border: 2px red solid;
+    background-color: #0E415C;
+    margin: 20px;
 }
 .profile-picture{
     width: 100%;
     object-fit: contain;
     z-index: 0;
 }
-.details{
-    background-color: grey;
-    z-index: 1;
+.information{
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
 }
+.details{
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: baseline;
+    margin-top: 0.5em;
+    white-space: nowrap;
+    
+}
+.distance{
+    font-size: 0.7em;
+    margin-bottom: 0.7em;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .user{
+        width: 90%;
+    }
+  }
 

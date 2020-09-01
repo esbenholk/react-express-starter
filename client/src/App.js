@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import {User} from './Single-user.js';
-import {Calculator} from './Online-status.js';
 
 import './App.css';
 
 class App extends Component {
-  state = {
-    ids: [],
-    users: [],
-  };
+  constructor(props) {
+    super(props);
+    this.grid = React.createRef();
+    this.state = {
+      users: []
+    };
+  }
+
+ 
   
   componentDidMount() {
     this.getUser()
@@ -24,7 +28,7 @@ class App extends Component {
   }
   
   getUser = async () => {
-    const result= await fetch('/api/search?length=32');
+    const result= await fetch('/api/search?length=100');
     const users = await result.json();
 
     if (result.status !== 200) throw Error(users.message);
@@ -59,6 +63,18 @@ class App extends Component {
     // maps user_info array onto users array through ID match
   
     let complete_users = user_info.map((item, i) => Object.assign({}, item, users[i]));
+    for (let index = 0; index < complete_users.length; index++) {
+      if(complete_users[index].online_status === "ONLINE"){
+        complete_users[index].online_status = 1
+      } else if(complete_users[index].online_status === "DATE"){
+        complete_users[index].online_status = 0
+      } else if(complete_users[index].online_status === "OFFLINE"){
+        complete_users[index].online_status = -1
+      }
+    }
+    complete_users.sort(function (a, b) {
+      return b.online_status - a.online_status;
+    });
     
 
     return complete_users;
@@ -66,21 +82,23 @@ class App extends Component {
   };
  
   render() {
-   
-      return (
-        <div className="App">
+  
+        return (
+        <div className="App"  >
           <header className="App-header">
-          </header>
-          <div className="user-grid">
-            {this.state.users.map((user) => (
-                <User user={user}/>
+          </header> 
+          <ul className="user-grid" ref={this.grid} >
+            {this.state.users.map((user, index) => (
+                <User user={user} className="profile" key={index}/>
              ))}
-            </div>
-       
+            </ul>
+              
         </div>
+        
       );
   }
 }
+
 
 export default App;
 

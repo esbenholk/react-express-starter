@@ -1,21 +1,10 @@
 import React from "react";
 
 let Mapper = function (props){
-   console.log(props.location);
-
- 
 
         return (
-            <div>
-                <p>{props.location.location.distance}m</p>
-            </div>
+             <p className="distance">{props.location.distance} m</p>
         );
-    
-   
-
- 
-
-    
 
 }
 
