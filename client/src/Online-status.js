@@ -1,8 +1,5 @@
 import React from "react";
 
-
-
-
 let Calculator = function (props){
     let last_seen;
     let last_login = props.user.last_login;
@@ -25,22 +22,19 @@ let Calculator = function (props){
         } else if (difference>60){
             last_seen = "last seen "+Math.round((difference/60))+" hours ago"
         }  else{
-            last_seen = "last seen "+Math.round(difference)+" minutes ago. u just missed him"
+            last_seen = "last seen "+Math.round(difference)+" minutes ago"
         }
     } 
 
-   
-
    if(props.user.online_status === 1 ){
         return (
-              <div></div>
+        <p className="last_seen tagline">{}</p>
         );
     } else{
         return (
-             <p>{last_seen}</p>
+             <p className=" last_seen tagline">{last_seen}</p>
         );
     }
-   
 }
 
 export default Calculator;

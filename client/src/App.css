@@ -3,7 +3,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-  
+    margin-top: 5%;
+    margin-bottom: 10%;
     
 }
 .App{
@@ -13,4 +14,9 @@
 }
 ul{
     list-style: none;
+}
+h1{
+    text-align: center;
+    margin: 0.7em;
+    color: white;
 }

@@ -33,7 +33,7 @@ class App extends Component {
 
     if (result.status !== 200) throw Error(users.message);
     
-    // instruct for placeholder image in case of unavailable profile picture
+    // instructs for placeholder image in case of unavailable profile picture
 
     for(let i=0; i<users.items.length; i++){   
       if(!users.items[i].picture){
@@ -63,6 +63,9 @@ class App extends Component {
     // maps user_info array onto users array through ID match
   
     let complete_users = user_info.map((item, i) => Object.assign({}, item, users[i]));
+
+    // replaces online_status with numeric value for sorting.
+
     for (let index = 0; index < complete_users.length; index++) {
       if(complete_users[index].online_status === "ONLINE"){
         complete_users[index].online_status = 1
@@ -72,6 +75,9 @@ class App extends Component {
         complete_users[index].online_status = -1
       }
     }
+
+    // reorganises complete_users array so the online users appear first. 
+
     complete_users.sort(function (a, b) {
       return b.online_status - a.online_status;
     });
@@ -86,6 +92,7 @@ class App extends Component {
         return (
         <div className="App"  >
           <header className="App-header">
+            <h1>xxx</h1>
           </header> 
           <ul className="user-grid" ref={this.grid} >
             {this.state.users.map((user, index) => (

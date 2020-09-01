@@ -30,7 +30,7 @@ export class User extends React.Component {
           <Mapper location={this.props.user.location}/>
           <Calculator user={this.props.user}/>
 
-          <p>{this.props.user.headline}</p>
+          <p className="tagline">{this.props.user.headline}</p>
           </div>
          
          

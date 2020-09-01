@@ -2,14 +2,16 @@
 .user{
     width: 20%;
     min-width: 175px;
+    height: auto;
     max-height: 100%;
     position: relative;
     background-color: #0E415C;
-    margin: 20px;
+    margin: 1em;
 }
 .profile-picture{
     width: 100%;
-    object-fit: contain;
+    height: 200px;
+    object-fit: cover;
     z-index: 0;
 }
 .information{
@@ -28,15 +30,19 @@
     align-items: baseline;
     margin-top: 0.5em;
     white-space: nowrap;
-    
 }
-.distance{
+
+.tagline{
     font-size: 0.7em;
     margin-bottom: 0.7em;
+    text-justify: center;
+}
+.last_seen{
+    opacity: 0.5;
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
     .user{
         width: 90%;
     }
