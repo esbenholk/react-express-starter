@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import {User} from './Single-user.js';
+import InfiniteScroll from "react-infinite-scroller";
 
 import './App.css';
 
@@ -8,29 +9,36 @@ class App extends Component {
     super(props);
     this.grid = React.createRef();
     this.state = {
-      users: []
+      users: [],
+      cursor: ''
     };
   }
 
  
   
   componentDidMount() {
-    this.getUser()
-      .then(users => this.getUserInfo(users.items).then(
-        complete_users =>   {
-          this.setState({ 
-            users: complete_users
-          })
-
+    this.getUser("length=50")
+      .then(users => {
+        this.setState({ 
+          cursor: users.cursors
         })
+        this.getUserInfo(users.items).then(
+          complete_users =>   {
+            this.setState({ 
+              users: complete_users
+            })
+          })
+      }
       )
       .catch(err => console.log(err));
   }
   
-  getUser = async () => {
-    const result= await fetch('/api/search?length=100');
+  getUser = async (params) => {
+   
+    //params is empty, but defaults to 32
+    const result= await fetch(`/api/search?${params}`);
     const users = await result.json();
-
+    
     if (result.status !== 200) throw Error(users.message);
     
     // instructs for placeholder image in case of unavailable profile picture
@@ -46,7 +54,6 @@ class App extends Component {
 
   getUserInfo = async (users) => {
     let params = ``;
-    
     // concats user_ids in to query string
 
     for(let i=0; i<users.length; i++){
@@ -82,24 +89,40 @@ class App extends Component {
       return b.online_status - a.online_status;
     });
     
-
     return complete_users;
 
   };
+
+  getMoreUsers = async () => {
+    console.log(this.state.cursor);
+    const result= await fetch(`/search?cursor=${this.state.cursor.after}`);
+    const users = await result.json();
+    
+    if (result.status !== 200) throw Error("doesnt work");
+    
+    console.log(users);
+
+    return users;
+  };
+
  
   render() {
   
         return (
         <div className="App"  >
+
           <header className="App-header">
             <h1>xxx</h1>
           </header> 
+
+        
           <ul className="user-grid" ref={this.grid} >
-            {this.state.users.map((user, index) => (
-                <User user={user} className="profile" key={index}/>
-             ))}
-            </ul>
-              
+                    {this.state.users.map((user, index) => (
+                        <User user={user} className="profile" key={index}/>
+                    ))}
+          </ul>
+          <button onClick={this.getMoreUsers}>more</button>
+
         </div>
         
       );
@@ -109,3 +132,20 @@ class App extends Component {
 
 export default App;
 
+
+{/* <InfiniteScroll
+pageStart={1}
+loadMore={() => this.getMoreUsers(this.state.cursor)}
+hasMore={true || false}
+useWindow={false}
+loader={
+  <div key="loading" className="loader">
+    Loading ...
+  </div> } >
+
+    <ul className="user-grid" ref={this.grid} >
+      {this.state.users.map((user, index) => (
+          <User user={user} className="profile" key={index}/>
+      ))}
+      </ul>
+</InfiniteScroll> */}
