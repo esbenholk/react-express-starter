@@ -31,10 +31,15 @@ The current version is merged with branch "infinitescroll" in which the eventhan
 Use:
 
 $ git clone -b erasys-trial https://github.com/esbenholk/react-express-starter.git
+
 $ cd erasys-trial
+
 $ npm install
+
 $ cd client
+
 $ npm install
+
 $ cd ..
 
 $ yarn dev
