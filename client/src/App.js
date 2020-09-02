@@ -28,13 +28,14 @@ class App extends Component {
   }
 
   fetchData = async()=>{
-    //fetches data with params set to length=10 and concats the array with the array in state
+    //fetches data with params set to length=10 (defaults to 32) and concats the array with the array in state
     
-    this.getUser("length=10").then(complete_users => {
+    this.getUser("length=12").then(complete_users => {
         
           this.setState({ 
               users: [...this.state.users, ...complete_users]
           })
+          console.log(this.state);
 
       })
       .catch(err => console.log(err));
