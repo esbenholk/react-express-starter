@@ -6,7 +6,7 @@ import './Online-status.css';
 
 import './Single-user.css';
 
-function Last_Seen(props) {
+function LAST_SEEN(props) {
   if(props.user.online_status === 1 ){
     return <div className="status_icon online_icon">
     </div>;
@@ -28,7 +28,7 @@ export class User extends React.Component {
 
             <div className="details">
               <p>{this.props.user.personal.age} | {this.props.user.name}</p> 
-              <Last_Seen user={this.props.user}/>
+              <LAST_SEEN user={this.props.user}/>
             </div>
 
             <Mapper location={this.props.user.location}/>
